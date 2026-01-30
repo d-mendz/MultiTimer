@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temporizador de Ejercicio - Sets Múltiples</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial Black', 'Arial Bold', Gadget, sans-serif;
+            background: #000000;
+            min-height: 100vh;
+            padding: 20px;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(20, 20, 20, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo-container img {
+            width: 200px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 3em;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        h1 .multi {
+            color: #9ACD32;
+        }
+
+        h1 .timer {
+            color: #FF8C00;
+        }
+
+        .config-section {
+            background: rgba(40, 40, 40, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+        }
+
+        .config-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .config-header h2 {
+            color: #9ACD32;
+            font-size: 1.3em;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-remove {
+            background: rgba(255, 69, 0, 0.2);
+            color: #FF4500;
+            border: 2px solid #FF4500;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .btn-remove:hover {
+            background: #FF4500;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: #9ACD32;
+            font-size: 0.95em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="number"],
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid rgba(154, 205, 50, 0.3);
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s;
+            background: rgba(20, 20, 20, 0.8);
+            color: #fff;
+            font-weight: 600;
+        }
+
+        input[type="number"]:focus,
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #9ACD32;
+            background: rgba(20, 20, 20, 0.95);
+            box-shadow: 0 0 10px rgba(154, 205, 50, 0.3);
+        }
+
+        input::placeholder {
+            color: #666;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            background: rgba(40, 40, 40, 0.6);
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid rgba(154, 205, 50, 0.2);
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #9ACD32;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            cursor: pointer;
+            color: #fff;
+            font-weight: 700;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .global-config {
+            display: none;
+            background: rgba(154, 205, 50, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 10px;
+            border: 2px solid rgba(154, 205, 50, 0.3);
+        }
+
+        .global-config.active {
+            display: block;
+        }
+
+        .global-config h3 {
+            color: #9ACD32;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .btn {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #9ACD32 0%, #7FB800 100%);
+            color: #000;
+            border-color: #9ACD32;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(154, 205, 50, 0.5);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #9ACD32 0%, #7FB800 100%);
+            color: #000;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(154, 205, 50, 0.5);
+        }
+
+        .btn-warning {
+            background: rgba(255, 140, 0, 0.2);
+            color: #FF8C00;
+            border: 2px solid #FF8C00;
+        }
+
+        .btn-warning:hover {
+            background: #FF8C00;
+            color: #000;
+            transform: translateY(-3px) scale(1.02);
+        }
+
+        .btn-danger {
+            background: rgba(255, 69, 0, 0.2);
+            color: #FF4500;
+            border: 2px solid #FF4500;
+        }
+
+        .btn-danger:hover {
+            background: #FF4500;
+            color: white;
+            transform: translateY(-3px) scale(1.02);
+        }
+
+        .timer-display {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .timer-display.active {
+            display: block;
+        }
+
+        .timer-info {
+            margin-bottom: 30px;
+        }
+
+        .timer-info h2 {
+            font-size: 1.5em;
+            color: #9ACD32;
+            margin-bottom: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .timer-info h3 {
+            font-size: 1.8em;
+            color: #fff;
+            margin-bottom: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .timer-status {
+            font-size: 1.2em;
+            color: #b3b3b3;
+            margin-bottom: 5px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        #setDescription {
+            color: #808080 !important;
+            font-style: italic;
+            text-transform: none;
+        }
+
+        .timer-circle {
+            width: 320px;
+            height: 320px;
+            margin: 0 auto 30px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5em;
+            font-weight: 900;
+            color: #9ACD32;
+            transition: all 0.3s;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.6);
+            border: 4px solid rgba(154, 205, 50, 0.3);
+            background: rgba(20, 20, 20, 0.9);
+            font-family: 'Courier New', monospace;
+            letter-spacing: 3px;
+        }
+
+        .timer-circle.work {
+            color: #9ACD32;
+            border-color: #9ACD32;
+            box-shadow: 0 15px 50px rgba(154, 205, 50, 0.4), inset 0 0 30px rgba(154, 205, 50, 0.1);
+        }
+
+        .timer-circle.rest {
+            color: #FF8C00;
+            border-color: #FF8C00;
+            box-shadow: 0 15px 50px rgba(255, 140, 0, 0.4), inset 0 0 30px rgba(255, 140, 0, 0.1);
+        }
+
+        .timer-circle.prepare {
+            color: #FF4500;
+            border-color: #FF4500;
+            animation: pulse 1s infinite;
+            box-shadow: 0 15px 50px rgba(255, 69, 0, 0.5), inset 0 0 30px rgba(255, 69, 0, 0.2);
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: 0 15px 50px rgba(255, 69, 0, 0.5), inset 0 0 30px rgba(255, 69, 0, 0.2);
+            }
+            50% { 
+                transform: scale(1.05);
+                box-shadow: 0 20px 60px rgba(255, 69, 0, 0.7), inset 0 0 40px rgba(255, 69, 0, 0.3);
+            }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: rgba(40, 40, 40, 0.6);
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            border: 1px solid rgba(154, 205, 50, 0.2);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #9ACD32, #FF8C00);
+            transition: width 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .timer-circle {
+                width: 250px;
+                height: 250px;
+                font-size: 3.5em;
+            }
+
+            .btn {
+                min-width: 120px;
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+
+            .logo-container img {
+                width: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-container">
+            <img src="images/multitimer.jpeg" alt="MultiTimer">
+        </div>
+        <h1><span class="multi">MULTI</span><span class="timer">TIMER</span></h1>
+
+        <div id="configSection">
+            <div class="checkbox-group">
+                <input type="checkbox" id="useGlobalConfig" onchange="toggleGlobalConfig()">
+                <label for="useGlobalConfig">Usar la misma configuración para todos los sets</label>
+            </div>
+
+            <div id="globalConfig" class="global-config">
+                <h3 style="margin-bottom: 15px; color: #667eea;">⚙️ Configuración Global</h3>
+                <div class="form-group">
+                    <label>Intervalos de trabajo por set:</label>
+                    <input type="number" id="globalIntervals" min="1" value="4">
+                </div>
+                <div class="form-group">
+                    <label>Duración del trabajo (segundos):</label>
+                    <input type="number" id="globalWorkTime" min="1" value="30">
+                </div>
+                <div class="form-group">
+                    <label>Duración del descanso (segundos):</label>
+                    <input type="number" id="globalRestTime" min="1" value="10">
+                </div>
+            </div>
+
+            <div id="setsContainer"></div>
+
+            <div class="btn-container">
+                <button class="btn btn-primary" onclick="addSet()"><img src="images/agregar.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">Agregar Set</button>
+                <button class="btn btn-success" onclick="startTimer()"><img src="images/iniciar.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">Iniciar</button>
+            </div>
+        </div>
+
+        <div id="timerDisplay" class="timer-display">
+            <div class="timer-info">
+                <h2 id="currentSet">Set 1 de 3</h2>
+                <h3 id="setName" style="color: #764ba2; margin-bottom: 10px; font-size: 1.3em;">Nombre del Set</h3>
+                <div id="setDescription" style="color: #666; margin-bottom: 15px; font-style: italic;">Descripción del ejercicio</div>
+                <div class="timer-status" id="currentInterval">Intervalo 1 de 4</div>
+                <div class="timer-status" id="currentPhase">TRABAJO</div>
+            </div>
+
+            <div id="timerCircle" class="timer-circle work">
+                <span id="timeDisplay">00:30</span>
+            </div>
+
+            <div class="progress-bar">
+                <div id="progressFill" class="progress-fill" style="width: 0%;">
+                    <span id="progressText">0%</span>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="btn btn-warning" onclick="pauseTimer()"><img src="images/Pausa.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">Pausar</button>
+                <button class="btn btn-success" onclick="resumeTimer()"><img src="images/reanudar.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">Reanudar</button>
+                <button class="btn btn-danger" onclick="stopTimer()"><img src="images/detener.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">Detener</button>
+                <button id="skipSetBtn" class="btn btn-primary" onclick="skipSet()" style="display: none;"><img src="images/adelantar.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">Saltar Set</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let sets = [];
+        let currentSetIndex = 0;
+        let currentIntervalIndex = 0;
+        let isWorkPhase = true;
+        let timeRemaining = 0;
+        let totalTime = 0;
+        let timerInterval = null;
+        let isPaused = false;
+        let alarmAudio = null;
+        let prepareAudio = null;
+
+        // Crear audio context para alarmas
+        function initAudio() {
+            alarmAudio = new Audio();
+            prepareAudio = new Audio();
+            
+            // Generar tono para alarma (beep alto)
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            
+            // Alarma de fin de intervalo
+            const alarmBuffer = audioContext.createBuffer(1, audioContext.sampleRate * 0.3, audioContext.sampleRate);
+            const alarmData = alarmBuffer.getChannelData(0);
+            for (let i = 0; i < alarmData.length; i++) {
+                alarmData[i] = Math.sin(2 * Math.PI * 800 * i / audioContext.sampleRate) * 0.5;
+            }
+            
+            // Alarma de preparación (beep corto)
+            const prepareBuffer = audioContext.createBuffer(1, audioContext.sampleRate * 0.1, audioContext.sampleRate);
+            const prepareData = prepareBuffer.getChannelData(0);
+            for (let i = 0; i < prepareData.length; i++) {
+                prepareData[i] = Math.sin(2 * Math.PI * 600 * i / audioContext.sampleRate) * 0.3;
+            }
+        }
+
+        function playBeep(isAlarm = true) {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = isAlarm ? 800 : 600;
+            oscillator.type = 'sine';
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + (isAlarm ? 0.3 : 0.1));
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + (isAlarm ? 0.3 : 0.1));
+        }
+
+        function toggleGlobalConfig() {
+            const checkbox = document.getElementById('useGlobalConfig');
+            const globalConfig = document.getElementById('globalConfig');
+            const setsContainer = document.getElementById('setsContainer');
+            
+            if (checkbox.checked) {
+                globalConfig.classList.add('active');
+                setsContainer.innerHTML = '';
+                for (let i = 0; i < 3; i++) {
+                    addSet();
+                }
+            } else {
+                globalConfig.classList.remove('active');
+                setsContainer.innerHTML = '';
+                addSet();
+            }
+        }
+
+        function addSet() {
+            const setNumber = document.querySelectorAll('.config-section').length + 1;
+            const useGlobal = document.getElementById('useGlobalConfig').checked;
+            
+            const setDiv = document.createElement('div');
+            setDiv.className = 'config-section';
+            setDiv.innerHTML = `
+                <div class="config-header">
+                    <h2><img src="images/multitimer_icon.jpeg" style="width: 30px; height: 30px; vertical-align: middle; margin-right: 10px; border-radius: 5px;">SET ${setNumber}</h2>
+                    <button class="btn-remove" onclick="removeSet(this)"><img src="images/eliminar.png" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">Eliminar</button>
+                </div>
+                <div class="form-group">
+                    <label>Nombre del Set:</label>
+                    <input type="text" class="set-name" placeholder="Ej: Sentadillas, Press de Banca..." value="Set ${setNumber}">
+                </div>
+                <div class="form-group">
+                    <label>Descripción del Ejercicio:</label>
+                    <input type="text" class="set-description" placeholder="Ej: 4 series de sentadillas con peso corporal">
+                </div>
+                ${!useGlobal ? `
+                <div class="form-group">
+                    <label>Intervalos de trabajo:</label>
+                    <input type="number" class="intervals" min="1" value="4">
+                </div>
+                <div class="form-group">
+                    <label>Duración del trabajo (segundos):</label>
+                    <input type="number" class="work-time" min="1" value="30">
+                </div>
+                <div class="form-group">
+                    <label>Duración del descanso (segundos):</label>
+                    <input type="number" class="rest-time" min="1" value="10">
+                </div>
+                ` : '<p style="color: #666; font-style: italic;">Usando configuración global</p>'}
+            `;
+            
+            document.getElementById('setsContainer').appendChild(setDiv);
+        }
+
+        function removeSet(button) {
+            const setDiv = button.closest('.config-section');
+            setDiv.remove();
+            updateSetNumbers();
+        }
+
+        function updateSetNumbers() {
+            const setDivs = document.querySelectorAll('.config-section');
+            setDivs.forEach((div, index) => {
+                div.querySelector('h2').innerHTML = `<img src="images/multitimer_icon.jpeg" style="width: 30px; height: 30px; vertical-align: middle; margin-right: 10px; border-radius: 5px;">SET ${index + 1}`;
+            });
+        }
+
+        function startTimer() {
+            const setDivs = document.querySelectorAll('.config-section');
+            if (setDivs.length === 0) {
+                alert('Por favor agrega al menos un set');
+                return;
+            }
+
+            sets = [];
+            const useGlobal = document.getElementById('useGlobalConfig').checked;
+
+            setDivs.forEach(setDiv => {
+                let intervals, workTime, restTime;
+                const name = setDiv.querySelector('.set-name').value || 'Set sin nombre';
+                const description = setDiv.querySelector('.set-description').value || '';
+                
+                if (useGlobal) {
+                    intervals = parseInt(document.getElementById('globalIntervals').value);
+                    workTime = parseInt(document.getElementById('globalWorkTime').value);
+                    restTime = parseInt(document.getElementById('globalRestTime').value);
+                } else {
+                    intervals = parseInt(setDiv.querySelector('.intervals').value);
+                    workTime = parseInt(setDiv.querySelector('.work-time').value);
+                    restTime = parseInt(setDiv.querySelector('.rest-time').value);
+                }
+
+                sets.push({ name, description, intervals, workTime, restTime });
+            });
+
+            currentSetIndex = 0;
+            currentIntervalIndex = 0;
+            isWorkPhase = true;
+            isPaused = false;
+
+            document.getElementById('configSection').style.display = 'none';
+            document.getElementById('timerDisplay').classList.add('active');
+
+            initAudio();
+            startInterval();
+        }
+
+        function startInterval() {
+            const currentSet = sets[currentSetIndex];
+            timeRemaining = isWorkPhase ? currentSet.workTime : currentSet.restTime;
+            totalTime = timeRemaining;
+
+            // Mostrar u ocultar el botón de saltar set
+            const skipBtn = document.getElementById('skipSetBtn');
+            if (sets.length > 1) {
+                skipBtn.style.display = 'inline-block';
+            } else {
+                skipBtn.style.display = 'none';
+            }
+
+            updateDisplay();
+            runTimer();
+        }
+
+        function skipSet() {
+            // Saltar al siguiente set
+            currentSetIndex++;
+            currentIntervalIndex = 0;
+            isWorkPhase = true;
+
+            if (currentSetIndex >= sets.length) {
+                // Si no hay más sets, terminar
+                finishWorkout();
+                return;
+            }
+
+            // Iniciar el siguiente set
+            startInterval();
+        }
+
+        function runTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+
+            timerInterval = setInterval(() => {
+                if (!isPaused) {
+                    timeRemaining--;
+
+                    // Alarma de preparación (3 segundos antes del siguiente intervalo de trabajo)
+                    if (!isWorkPhase && timeRemaining === 3) {
+                        playBeep(false);
+                        document.getElementById('timerCircle').classList.add('prepare');
+                    }
+
+                    updateDisplay();
+
+                    if (timeRemaining <= 0) {
+                        playBeep(true); // Alarma de fin de intervalo
+
+                        if (isWorkPhase) {
+                            // Termina trabajo, empieza descanso
+                            isWorkPhase = false;
+                            startInterval();
+                        } else {
+                            // Termina descanso
+                            currentIntervalIndex++;
+                            isWorkPhase = true;
+
+                            if (currentIntervalIndex >= sets[currentSetIndex].intervals) {
+                                // Termina el set
+                                currentSetIndex++;
+                                currentIntervalIndex = 0;
+
+                                if (currentSetIndex >= sets.length) {
+                                    // Termina todos los sets
+                                    finishWorkout();
+                                    return;
+                                }
+                            }
+
+                            startInterval();
+                        }
+                    }
+                }
+            }, 1000);
+        }
+
+        function updateDisplay() {
+            const currentSet = sets[currentSetIndex];
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            document.getElementById('timeDisplay').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+            document.getElementById('currentSet').textContent = 
+                `Set ${currentSetIndex + 1} de ${sets.length}`;
+            document.getElementById('setName').textContent = currentSet.name;
+            document.getElementById('setDescription').textContent = 
+                currentSet.description || 'Sin descripción';
+            document.getElementById('currentInterval').textContent = 
+                `Intervalo ${currentIntervalIndex + 1} de ${sets[currentSetIndex].intervals}`;
+            document.getElementById('currentPhase').textContent = 
+                isWorkPhase ? '💪 TRABAJO' : '😌 DESCANSO';
+
+            const circle = document.getElementById('timerCircle');
+            circle.className = 'timer-circle';
+            if (timeRemaining <= 3 && !isWorkPhase) {
+                circle.classList.add('prepare');
+            } else if (isWorkPhase) {
+                circle.classList.add('work');
+            } else {
+                circle.classList.add('rest');
+            }
+
+            const progress = ((totalTime - timeRemaining) / totalTime) * 100;
+            document.getElementById('progressFill').style.width = `${progress}%`;
+            document.getElementById('progressText').textContent = `${Math.round(progress)}%`;
+        }
+
+        function pauseTimer() {
+            isPaused = true;
+        }
+
+        function resumeTimer() {
+            isPaused = false;
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            isPaused = false;
+            currentSetIndex = 0;
+            currentIntervalIndex = 0;
+            isWorkPhase = true;
+            sets = [];
+            
+            // Limpiar todos los sets
+            document.getElementById('setsContainer').innerHTML = '';
+            
+            // Desmarcar checkbox global
+            document.getElementById('useGlobalConfig').checked = false;
+            document.getElementById('globalConfig').classList.remove('active');
+            
+            // Agregar un set por defecto
+            addSet();
+            
+            // Ocultar temporizador y mostrar configuración
+            document.getElementById('timerDisplay').classList.remove('active');
+            document.getElementById('configSection').style.display = 'block';
+        }
+
+        function finishWorkout() {
+            clearInterval(timerInterval);
+            document.getElementById('timeDisplay').textContent = '✓';
+            document.getElementById('currentPhase').textContent = '🎉 ¡ENTRENAMIENTO COMPLETADO!';
+            document.getElementById('setName').textContent = '¡ERES UNA PIOLA! 💪🔥';
+            document.getElementById('setDescription').textContent = 'Excelente trabajo, te lo ganaste!';
+            
+            setTimeout(() => {
+                stopTimer();
+            }, 3000);
+        }
+
+        // Inicializar con un set por defecto
+        addSet();
+    </script>
+</body>
+</html>
