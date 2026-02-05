@@ -16,7 +16,6 @@
             background: #000000;
             min-height: 100vh;
             padding: 20px;
-            padding: 20px;
             color: #fff;
         }
 
@@ -39,6 +38,38 @@
             width: 200px;
             height: auto;
             margin-bottom: 10px;
+        }
+
+        .language-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            padding: 10px;
+        }
+
+        .lang-btn {
+            padding: 10px 20px;
+            border: 2px solid rgba(154, 205, 50, 0.3);
+            border-radius: 25px;
+            background: rgba(40, 40, 40, 0.6);
+            color: #b3b3b3;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 700;
+            font-size: 0.95em;
+            text-transform: uppercase;
+        }
+
+        .lang-btn:hover {
+            border-color: #9ACD32;
+            background: rgba(40, 40, 40, 0.9);
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(135deg, #9ACD32 0%, #7FB800 100%);
+            color: #000;
+            border-color: #9ACD32;
         }
 
         h1 {
@@ -406,28 +437,33 @@
 <body>
     <div class="container">
         <div class="logo-container">
-            <img src="images/multitimer.jpeg" alt="MultiTimer">
+            <img src="multitimer.jpeg" alt="MultiTimer">
         </div>
         <h1><span class="multi">MULTI</span><span class="timer">TIMER</span></h1>
+        
+        <div class="language-toggle">
+            <button class="lang-btn" id="langEs" onclick="changeLanguage('es')">🇲🇽 Español</button>
+            <button class="lang-btn active" id="langEn" onclick="changeLanguage('en')">🇺🇸 English</button>
+        </div>
 
         <div id="configSection">
             <div class="checkbox-group">
                 <input type="checkbox" id="useGlobalConfig" onchange="toggleGlobalConfig()">
-                <label for="useGlobalConfig">Usar la misma configuración para todos los sets</label>
+                <label for="useGlobalConfig">Use the same configuration for all sets</label>
             </div>
 
             <div id="globalConfig" class="global-config">
-                <h3 style="margin-bottom: 15px; color: #667eea;">⚙️ Configuración Global</h3>
+                <h3 style="margin-bottom: 15px; color: #9ACD32;">⚙️ Global Configuration</h3>
                 <div class="form-group">
-                    <label>Intervalos de trabajo por set:</label>
+                    <label>Work intervals per set:</label>
                     <input type="number" id="globalIntervals" min="1" value="4">
                 </div>
                 <div class="form-group">
-                    <label>Duración del trabajo (segundos):</label>
+                    <label>Work duration (seconds):</label>
                     <input type="number" id="globalWorkTime" min="1" value="30">
                 </div>
                 <div class="form-group">
-                    <label>Duración del descanso (segundos):</label>
+                    <label>Rest duration (seconds):</label>
                     <input type="number" id="globalRestTime" min="1" value="10">
                 </div>
             </div>
@@ -435,18 +471,18 @@
             <div id="setsContainer"></div>
 
             <div class="btn-container">
-                <button class="btn btn-primary" onclick="addSet()"><img src="images/agregar.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">Agregar Set</button>
-                <button class="btn btn-success" onclick="startTimer()"><img src="images/iniciar.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">Iniciar</button>
+                <button class="btn btn-primary" onclick="addSet()"><img src="agregar.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">Add Set</button>
+                <button class="btn btn-success" onclick="startTimer()"><img src="iniciar.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">Start</button>
             </div>
         </div>
 
         <div id="timerDisplay" class="timer-display">
             <div class="timer-info">
-                <h2 id="currentSet">Set 1 de 3</h2>
-                <h3 id="setName" style="color: #764ba2; margin-bottom: 10px; font-size: 1.3em;">Nombre del Set</h3>
-                <div id="setDescription" style="color: #666; margin-bottom: 15px; font-style: italic;">Descripción del ejercicio</div>
-                <div class="timer-status" id="currentInterval">Intervalo 1 de 4</div>
-                <div class="timer-status" id="currentPhase">TRABAJO</div>
+                <h2 id="currentSet">Set 1 of 3</h2>
+                <h3 id="setName" style="color: #764ba2; margin-bottom: 10px; font-size: 1.3em;">Set Name</h3>
+                <div id="setDescription" style="color: #666; margin-bottom: 15px; font-style: italic;">Exercise description</div>
+                <div class="timer-status" id="currentInterval">Interval 1 of 4</div>
+                <div class="timer-status" id="currentPhase">WORK</div>
             </div>
 
             <div id="timerCircle" class="timer-circle work">
@@ -460,10 +496,10 @@
             </div>
 
             <div class="controls">
-                <button class="btn btn-warning" onclick="pauseTimer()"><img src="images/Pausa.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">Pausar</button>
-                <button class="btn btn-success" onclick="resumeTimer()"><img src="images/reanudar.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">Reanudar</button>
-                <button class="btn btn-danger" onclick="stopTimer()"><img src="images/detener.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">Detener</button>
-                <button id="skipSetBtn" class="btn btn-primary" onclick="skipSet()" style="display: none;"><img src="images/adelantar.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">Saltar Set</button>
+                <button class="btn btn-warning" onclick="pauseTimer()"><img src="Pausa.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">Pause</button>
+                <button class="btn btn-success" onclick="resumeTimer()"><img src="reanudar.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">Resume</button>
+                <button class="btn btn-danger" onclick="stopTimer()"><img src="detener.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">Stop</button>
+                <button id="skipSetBtn" class="btn btn-primary" onclick="skipSet()" style="display: none;"><img src="adelantar.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">Skip Set</button>
             </div>
         </div>
     </div>
@@ -479,6 +515,177 @@
         let isPaused = false;
         let alarmAudio = null;
         let prepareAudio = null;
+        let currentLanguage = 'en';
+
+        const translations = {
+            es: {
+                useGlobalConfig: 'Usar la misma configuración para todos los sets',
+                globalConfig: '⚙️ Configuración Global',
+                workIntervals: 'Intervalos de trabajo por set:',
+                workDuration: 'Duración del trabajo (segundos):',
+                restDuration: 'Duración del descanso (segundos):',
+                set: 'SET',
+                setName: 'Nombre del Set:',
+                setNamePlaceholder: 'Ej: Sentadillas, Press de Banca...',
+                exerciseDescription: 'Descripción del Ejercicio:',
+                exerciseDescriptionPlaceholder: 'Ej: 4 series de sentadillas con peso corporal',
+                workIntervalsSingle: 'Intervalos de trabajo:',
+                usingGlobalConfig: 'Usando configuración global',
+                delete: 'Eliminar',
+                addSet: 'Agregar Set',
+                start: 'Iniciar',
+                pause: 'Pausar',
+                resume: 'Reanudar',
+                stop: 'Detener',
+                skipSet: 'Saltar Set',
+                setOf: 'Set {current} de {total}',
+                intervalOf: 'Intervalo {current} de {total}',
+                work: '💪 TRABAJO',
+                rest: '😌 DESCANSO',
+                workoutCompleted: '🎉 ¡ENTRENAMIENTO COMPLETADO!',
+                youRock: '¡ERES UNA PIOLA! 💪🔥',
+                greatJob: 'Excelente trabajo, te lo ganaste!',
+                noDescription: 'Sin descripción',
+                addAtLeastOneSet: 'Por favor agrega al menos un set'
+            },
+            en: {
+                useGlobalConfig: 'Use the same configuration for all sets',
+                globalConfig: '⚙️ Global Configuration',
+                workIntervals: 'Work intervals per set:',
+                workDuration: 'Work duration (seconds):',
+                restDuration: 'Rest duration (seconds):',
+                set: 'SET',
+                setName: 'Set Name:',
+                setNamePlaceholder: 'Ex: Squats, Bench Press...',
+                exerciseDescription: 'Exercise Description:',
+                exerciseDescriptionPlaceholder: 'Ex: 4 sets of bodyweight squats',
+                workIntervalsSingle: 'Work intervals:',
+                usingGlobalConfig: 'Using global configuration',
+                delete: 'Delete',
+                addSet: 'Add Set',
+                start: 'Start',
+                pause: 'Pause',
+                resume: 'Resume',
+                stop: 'Stop',
+                skipSet: 'Skip Set',
+                setOf: 'Set {current} of {total}',
+                intervalOf: 'Interval {current} of {total}',
+                work: '💪 WORK',
+                rest: '😌 REST',
+                workoutCompleted: '🎉 WORKOUT COMPLETED!',
+                youRock: 'YOU ROCK! 💪🔥',
+                greatJob: 'Great job, you earned it!',
+                noDescription: 'No description',
+                addAtLeastOneSet: 'Please add at least one set'
+            }
+        };
+
+        function t(key) {
+            return translations[currentLanguage][key] || key;
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Update active button
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('lang' + lang.charAt(0).toUpperCase() + lang.slice(1)).classList.add('active');
+            
+            // Update all UI texts
+            updateUILanguage();
+        }
+
+        function updateUILanguage() {
+            // Update checkbox label
+            const checkboxLabel = document.querySelector('label[for="useGlobalConfig"]');
+            if (checkboxLabel) checkboxLabel.textContent = t('useGlobalConfig');
+            
+            // Update global config title
+            const globalConfigTitle = document.querySelector('#globalConfig h3');
+            if (globalConfigTitle) globalConfigTitle.textContent = t('globalConfig');
+            
+            // Update global config labels
+            const globalLabels = document.querySelectorAll('#globalConfig label');
+            if (globalLabels.length >= 3) {
+                globalLabels[0].textContent = t('workIntervals');
+                globalLabels[1].textContent = t('workDuration');
+                globalLabels[2].textContent = t('restDuration');
+            }
+            
+            // Update buttons
+            const addSetBtn = document.querySelector('.btn-container .btn-primary');
+            if (addSetBtn && addSetBtn.textContent.includes('Add') || addSetBtn.textContent.includes('Agregar')) {
+                addSetBtn.innerHTML = `<img src="agregar.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">${t('addSet')}`;
+            }
+            
+            const startBtn = document.querySelector('.btn-container .btn-success');
+            if (startBtn) {
+                startBtn.innerHTML = `<img src="iniciar.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">${t('start')}`;
+            }
+            
+            // Update timer buttons
+            updateTimerButtonsLanguage();
+            
+            // Update all set sections
+            updateAllSetsLanguage();
+        }
+
+        function updateTimerButtonsLanguage() {
+            const pauseBtn = document.querySelector('.controls .btn-warning');
+            if (pauseBtn) pauseBtn.innerHTML = `<img src="Pausa.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">${t('pause')}`;
+            
+            const resumeBtn = document.querySelector('.controls .btn-success');
+            if (resumeBtn) resumeBtn.innerHTML = `<img src="reanudar.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">${t('resume')}`;
+            
+            const stopBtn = document.querySelector('.controls .btn-danger');
+            if (stopBtn) stopBtn.innerHTML = `<img src="detener.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">${t('stop')}`;
+            
+            const skipBtn = document.getElementById('skipSetBtn');
+            if (skipBtn) skipBtn.innerHTML = `<img src="adelantar.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">${t('skipSet')}`;
+        }
+
+        function updateAllSetsLanguage() {
+            const setDivs = document.querySelectorAll('.config-section');
+            setDivs.forEach((div, index) => {
+                updateSetLanguage(div, index + 1);
+            });
+        }
+
+        function updateSetLanguage(setDiv, setNumber) {
+            const useGlobal = document.getElementById('useGlobalConfig').checked;
+            
+            // Update set name label
+            const labels = setDiv.querySelectorAll('label');
+            if (labels.length > 0) {
+                labels[0].textContent = t('setName');
+                const nameInput = setDiv.querySelector('.set-name');
+                if (nameInput) nameInput.placeholder = t('setNamePlaceholder');
+                
+                if (labels.length > 1) {
+                    labels[1].textContent = t('exerciseDescription');
+                    const descInput = setDiv.querySelector('.set-description');
+                    if (descInput) descInput.placeholder = t('exerciseDescriptionPlaceholder');
+                }
+                
+                if (!useGlobal && labels.length > 4) {
+                    labels[2].textContent = t('workIntervalsSingle');
+                    labels[3].textContent = t('workDuration');
+                    labels[4].textContent = t('restDuration');
+                }
+            }
+            
+            // Update delete button
+            const deleteBtn = setDiv.querySelector('.btn-remove');
+            if (deleteBtn) {
+                deleteBtn.innerHTML = `<img src="eliminar.png" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">${t('delete')}`;
+            }
+            
+            // Update "using global config" text
+            const globalText = setDiv.querySelector('p');
+            if (globalText && useGlobal) {
+                globalText.textContent = t('usingGlobalConfig');
+            }
+        }
 
         // Crear audio context para alarmas
         function initAudio() {
@@ -547,31 +754,31 @@
             setDiv.className = 'config-section';
             setDiv.innerHTML = `
                 <div class="config-header">
-                    <h2><img src="images/multitimer_icon.jpeg" style="width: 30px; height: 30px; vertical-align: middle; margin-right: 10px; border-radius: 5px;">SET ${setNumber}</h2>
-                    <button class="btn-remove" onclick="removeSet(this)"><img src="images/eliminar.png" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">Eliminar</button>
+                    <h2><img src="multitimer_icon.jpeg" style="width: 30px; height: 30px; vertical-align: middle; margin-right: 10px; border-radius: 5px;">${t('set')} ${setNumber}</h2>
+                    <button class="btn-remove" onclick="removeSet(this)"><img src="eliminar.png" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">${t('delete')}</button>
                 </div>
                 <div class="form-group">
-                    <label>Nombre del Set:</label>
-                    <input type="text" class="set-name" placeholder="Ej: Sentadillas, Press de Banca..." value="Set ${setNumber}">
+                    <label>${t('setName')}</label>
+                    <input type="text" class="set-name" placeholder="${t('setNamePlaceholder')}" value="Set ${setNumber}">
                 </div>
                 <div class="form-group">
-                    <label>Descripción del Ejercicio:</label>
-                    <input type="text" class="set-description" placeholder="Ej: 4 series de sentadillas con peso corporal">
+                    <label>${t('exerciseDescription')}</label>
+                    <input type="text" class="set-description" placeholder="${t('exerciseDescriptionPlaceholder')}">
                 </div>
                 ${!useGlobal ? `
                 <div class="form-group">
-                    <label>Intervalos de trabajo:</label>
+                    <label>${t('workIntervalsSingle')}</label>
                     <input type="number" class="intervals" min="1" value="4">
                 </div>
                 <div class="form-group">
-                    <label>Duración del trabajo (segundos):</label>
+                    <label>${t('workDuration')}</label>
                     <input type="number" class="work-time" min="1" value="30">
                 </div>
                 <div class="form-group">
-                    <label>Duración del descanso (segundos):</label>
+                    <label>${t('restDuration')}</label>
                     <input type="number" class="rest-time" min="1" value="10">
                 </div>
-                ` : '<p style="color: #666; font-style: italic;">Usando configuración global</p>'}
+                ` : `<p style="color: #666; font-style: italic;">${t('usingGlobalConfig')}</p>`}
             `;
             
             document.getElementById('setsContainer').appendChild(setDiv);
@@ -586,14 +793,14 @@
         function updateSetNumbers() {
             const setDivs = document.querySelectorAll('.config-section');
             setDivs.forEach((div, index) => {
-                div.querySelector('h2').innerHTML = `<img src="images/multitimer_icon.jpeg" style="width: 30px; height: 30px; vertical-align: middle; margin-right: 10px; border-radius: 5px;">SET ${index + 1}`;
+                div.querySelector('h2').innerHTML = `<img src="multitimer_icon.jpeg" style="width: 30px; height: 30px; vertical-align: middle; margin-right: 10px; border-radius: 5px;">${t('set')} ${index + 1}`;
             });
         }
 
         function startTimer() {
             const setDivs = document.querySelectorAll('.config-section');
             if (setDivs.length === 0) {
-                alert('Por favor agrega al menos un set');
+                alert(t('addAtLeastOneSet'));
                 return;
             }
 
@@ -602,7 +809,7 @@
 
             setDivs.forEach(setDiv => {
                 let intervals, workTime, restTime;
-                const name = setDiv.querySelector('.set-name').value || 'Set sin nombre';
+                const name = setDiv.querySelector('.set-name').value || 'Set';
                 const description = setDiv.querySelector('.set-description').value || '';
                 
                 if (useGlobal) {
@@ -717,14 +924,14 @@
                 `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
             document.getElementById('currentSet').textContent = 
-                `Set ${currentSetIndex + 1} de ${sets.length}`;
+                t('setOf').replace('{current}', currentSetIndex + 1).replace('{total}', sets.length);
             document.getElementById('setName').textContent = currentSet.name;
             document.getElementById('setDescription').textContent = 
-                currentSet.description || 'Sin descripción';
+                currentSet.description || t('noDescription');
             document.getElementById('currentInterval').textContent = 
-                `Intervalo ${currentIntervalIndex + 1} de ${sets[currentSetIndex].intervals}`;
+                t('intervalOf').replace('{current}', currentIntervalIndex + 1).replace('{total}', sets[currentSetIndex].intervals);
             document.getElementById('currentPhase').textContent = 
-                isWorkPhase ? '💪 TRABAJO' : '😌 DESCANSO';
+                isWorkPhase ? t('work') : t('rest');
 
             const circle = document.getElementById('timerCircle');
             circle.className = 'timer-circle';
@@ -776,9 +983,9 @@
         function finishWorkout() {
             clearInterval(timerInterval);
             document.getElementById('timeDisplay').textContent = '✓';
-            document.getElementById('currentPhase').textContent = '🎉 ¡ENTRENAMIENTO COMPLETADO!';
-            document.getElementById('setName').textContent = '¡ERES UNA PIOLA! 💪🔥';
-            document.getElementById('setDescription').textContent = 'Excelente trabajo, te lo ganaste!';
+            document.getElementById('currentPhase').textContent = t('workoutCompleted');
+            document.getElementById('setName').textContent = t('youRock');
+            document.getElementById('setDescription').textContent = t('greatJob');
             
             setTimeout(() => {
                 stopTimer();
