@@ -437,7 +437,7 @@
 <body>
     <div class="container">
         <div class="logo-container">
-            <img src="multitimer.jpeg" alt="MultiTimer">
+            <img src="images/multitimer.jpeg" alt="MultiTimer">
         </div>
         <h1><span class="multi">MULTI</span><span class="timer">TIMER</span></h1>
         
@@ -471,8 +471,8 @@
             <div id="setsContainer"></div>
 
             <div class="btn-container">
-                <button class="btn btn-primary" onclick="addSet()"><img src="agregar.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">Add Set</button>
-                <button class="btn btn-success" onclick="startTimer()"><img src="iniciar.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">Start</button>
+                <button class="btn btn-primary" onclick="addSet()"><img src="images/agregar.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">Add Set</button>
+                <button class="btn btn-success" onclick="startTimer()"><img src="images/iniciar.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">Start</button>
             </div>
         </div>
 
@@ -496,10 +496,10 @@
             </div>
 
             <div class="controls">
-                <button class="btn btn-warning" onclick="pauseTimer()"><img src="Pausa.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">Pause</button>
-                <button class="btn btn-success" onclick="resumeTimer()"><img src="reanudar.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">Resume</button>
-                <button class="btn btn-danger" onclick="stopTimer()"><img src="detener.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">Stop</button>
-                <button id="skipSetBtn" class="btn btn-primary" onclick="skipSet()" style="display: none;"><img src="adelantar.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">Skip Set</button>
+                <button class="btn btn-warning" onclick="pauseTimer()"><img src="images/Pausa.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">Pause</button>
+                <button class="btn btn-success" onclick="resumeTimer()"><img src="images/reanudar.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">Resume</button>
+                <button class="btn btn-danger" onclick="stopTimer()"><img src="images/detener.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">Stop</button>
+                <button id="skipSetBtn" class="btn btn-primary" onclick="skipSet()" style="display: none;"><img src="images/adelantar.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">Skip Set</button>
             </div>
         </div>
     </div>
@@ -615,12 +615,12 @@
             // Update buttons
             const addSetBtn = document.querySelector('.btn-container .btn-primary');
             if (addSetBtn && addSetBtn.textContent.includes('Add') || addSetBtn.textContent.includes('Agregar')) {
-                addSetBtn.innerHTML = `<img src="agregar.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">${t('addSet')}`;
+                addSetBtn.innerHTML = `<img src="images/agregar.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">${t('addSet')}`;
             }
             
             const startBtn = document.querySelector('.btn-container .btn-success');
             if (startBtn) {
-                startBtn.innerHTML = `<img src="iniciar.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">${t('start')}`;
+                startBtn.innerHTML = `<img src="images/iniciar.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">${t('start')}`;
             }
             
             // Update timer buttons
@@ -632,16 +632,16 @@
 
         function updateTimerButtonsLanguage() {
             const pauseBtn = document.querySelector('.controls .btn-warning');
-            if (pauseBtn) pauseBtn.innerHTML = `<img src="Pausa.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">${t('pause')}`;
+            if (pauseBtn) pauseBtn.innerHTML = `<img src="images/Pausa.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">${t('pause')}`;
             
             const resumeBtn = document.querySelector('.controls .btn-success');
-            if (resumeBtn) resumeBtn.innerHTML = `<img src="reanudar.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">${t('resume')}`;
+            if (resumeBtn) resumeBtn.innerHTML = `<img src="images/reanudar.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">${t('resume')}`;
             
             const stopBtn = document.querySelector('.controls .btn-danger');
-            if (stopBtn) stopBtn.innerHTML = `<img src="detener.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">${t('stop')}`;
+            if (stopBtn) stopBtn.innerHTML = `<img src="images/detener.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">${t('stop')}`;
             
             const skipBtn = document.getElementById('skipSetBtn');
-            if (skipBtn) skipBtn.innerHTML = `<img src="adelantar.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">${t('skipSet')}`;
+            if (skipBtn) skipBtn.innerHTML = `<img src="images/adelantar.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">${t('skipSet')}`;
         }
 
         function updateAllSetsLanguage() {
@@ -677,7 +677,7 @@
             // Update delete button
             const deleteBtn = setDiv.querySelector('.btn-remove');
             if (deleteBtn) {
-                deleteBtn.innerHTML = `<img src="eliminar.png" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">${t('delete')}`;
+                deleteBtn.innerHTML = `<img src="images/eliminar.png" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">${t('delete')}`;
             }
             
             // Update "using global config" text
@@ -754,8 +754,8 @@
             setDiv.className = 'config-section';
             setDiv.innerHTML = `
                 <div class="config-header">
-                    <h2><img src="multitimer_icon.jpeg" style="width: 30px; height: 30px; vertical-align: middle; margin-right: 10px; border-radius: 5px;">${t('set')} ${setNumber}</h2>
-                    <button class="btn-remove" onclick="removeSet(this)"><img src="eliminar.png" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">${t('delete')}</button>
+                    <h2><img src="images/multitimer_icon.jpeg" style="width: 30px; height: 30px; vertical-align: middle; margin-right: 10px; border-radius: 5px;">${t('set')} ${setNumber}</h2>
+                    <button class="btn-remove" onclick="removeSet(this)"><img src="images/eliminar.png" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">${t('delete')}</button>
                 </div>
                 <div class="form-group">
                     <label>${t('setName')}</label>
@@ -793,7 +793,7 @@
         function updateSetNumbers() {
             const setDivs = document.querySelectorAll('.config-section');
             setDivs.forEach((div, index) => {
-                div.querySelector('h2').innerHTML = `<img src="multitimer_icon.jpeg" style="width: 30px; height: 30px; vertical-align: middle; margin-right: 10px; border-radius: 5px;">${t('set')} ${index + 1}`;
+                div.querySelector('h2').innerHTML = `<img src="images/multitimer_icon.jpeg" style="width: 30px; height: 30px; vertical-align: middle; margin-right: 10px; border-radius: 5px;">${t('set')} ${index + 1}`;
             });
         }
 
