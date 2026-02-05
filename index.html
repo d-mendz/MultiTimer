@@ -830,6 +830,9 @@
             isWorkPhase = true;
             isPaused = false;
 
+            // Ocultar toggle de idioma
+            document.querySelector('.language-toggle').style.display = 'none';
+            
             document.getElementById('configSection').style.display = 'none';
             document.getElementById('timerDisplay').classList.add('active');
 
@@ -974,6 +977,9 @@
             
             // Agregar un set por defecto
             addSet();
+            
+            // Mostrar toggle de idioma
+            document.querySelector('.language-toggle').style.display = 'flex';
             
             // Ocultar temporizador y mostrar configuración
             document.getElementById('timerDisplay').classList.remove('active');
